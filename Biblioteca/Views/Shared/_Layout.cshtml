@@ -1,0 +1,84 @@
+﻿<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Biblioteca</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600;700&family=Source+Sans+3:wght@400;600&display=swap">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <a class="visually-hidden-focusable skip-link" href="#conteudo">Saltar para o conteúdo</a>
+
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark nav-biblioteca">
+            <div class="container">
+                <a class="navbar-brand" asp-controller="Home" asp-action="Index">
+                    <i class="bi bi-book-half" aria-hidden="true"></i> Biblioteca
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuPrincipal"
+                        aria-controls="menuPrincipal" aria-expanded="false" aria-label="Abrir menu">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="menuPrincipal">
+                    @if (User.Identity?.IsAuthenticated == true)
+                    {
+                        <ul class="navbar-nav me-auto">
+                            <li class="nav-item"><a class="nav-link" asp-controller="Livros" asp-action="Index"><i class="bi bi-journal-bookmark"></i> Livros</a></li>
+                            <li class="nav-item"><a class="nav-link" asp-controller="Autores" asp-action="Index"><i class="bi bi-person-lines-fill"></i> Autores</a></li>
+                            <li class="nav-item"><a class="nav-link" asp-controller="Categorias" asp-action="Index"><i class="bi bi-tags"></i> Categorias</a></li>
+                            <li class="nav-item"><a class="nav-link" asp-controller="Leitores" asp-action="Index"><i class="bi bi-people"></i> Leitores</a></li>
+                            <li class="nav-item"><a class="nav-link" asp-controller="Emprestimos" asp-action="Index"><i class="bi bi-arrow-left-right"></i> Empréstimos</a></li>
+                        </ul>
+
+                        <ul class="navbar-nav">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-person-circle"></i> @User.Identity.Name
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" asp-controller="Account" asp-action="ChangeUser"><i class="bi bi-person-gear"></i> O meu perfil</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Account" asp-action="ChangePassword"><i class="bi bi-key"></i> Alterar palavra-passe</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li>
+                                        <form asp-controller="Account" asp-action="Logout" method="post">
+                                            <button type="submit" class="dropdown-item"><i class="bi bi-box-arrow-right"></i> Terminar sessão</button>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    }
+                    else
+                    {
+                        <ul class="navbar-nav ms-auto">
+                            <li class="nav-item"><a class="nav-link" asp-controller="Account" asp-action="Login"><i class="bi bi-box-arrow-in-right"></i> Iniciar sessão</a></li>
+                            <li class="nav-item"><a class="nav-link" asp-controller="Account" asp-action="Register"><i class="bi bi-person-plus"></i> Registar</a></li>
+                        </ul>
+                    }
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main id="conteudo" class="container py-4" role="main">
+        <partial name="_Alertas" />
+        @RenderBody()
+    </main>
+
+    <footer class="footer-biblioteca">
+        <div class="container">
+            &copy; @DateTime.Today.Year Biblioteca &middot; Projeto UFCD 5417 &middot; CINEL
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

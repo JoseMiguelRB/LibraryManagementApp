@@ -1,31 +1,173 @@
+/* ===== Biblioteca — estilos ===== */
+:root {
+    --bib-verde: #1f4e3d;
+    --bib-verde-escuro: #163a2d;
+    --bib-dourado: #c9a227;
+    --bib-papel: #f8f5ee;
+    --bib-texto: #2c3e50;
+    --bs-primary: #1f4e3d;
+    --bs-primary-rgb: 31, 78, 61;
+    --bs-link-color: #1f4e3d;
+    --bs-link-color-rgb: 31, 78, 61;
+    --bs-link-hover-color: #163a2d;
+    --bs-border-radius: 4px;
+}
+
 html {
-  font-size: 14px;
-}
-
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
+    font-family: "Source Sans 3", Arial, sans-serif;
+    background-color: var(--bib-papel);
+    color: var(--bib-texto);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
-.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
-  color: var(--bs-secondary-color);
-  text-align: end;
+main {
+    flex: 1;
 }
 
-.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
-  text-align: start;
+h1, h2, h3, h4, .h1, .h2, .h3, .h4, .h5, .navbar-brand {
+    font-family: "Lora", Georgia, serif;
+    font-weight: 600;
+}
+
+/* Navegação */
+.nav-biblioteca {
+    background-color: var(--bib-verde);
+    border-bottom: 3px solid var(--bib-dourado);
+}
+
+    .nav-biblioteca .navbar-brand {
+        font-size: 1.4rem;
+    }
+
+        .nav-biblioteca .navbar-brand i {
+            color: var(--bib-dourado);
+        }
+
+    .nav-biblioteca .nav-link {
+        color: rgba(255, 255, 255, .85);
+    }
+
+        .nav-biblioteca .nav-link:hover,
+        .nav-biblioteca .nav-link:focus {
+            color: #fff;
+        }
+
+.skip-link {
+    position: absolute;
+    top: .5rem;
+    left: .5rem;
+    z-index: 1100;
+    background: #fff;
+    padding: .5rem 1rem;
+}
+
+/* Botões principais na cor da biblioteca */
+.btn-primary {
+    --bs-btn-bg: var(--bib-verde);
+    --bs-btn-border-color: var(--bib-verde);
+    --bs-btn-hover-bg: var(--bib-verde-escuro);
+    --bs-btn-hover-border-color: var(--bib-verde-escuro);
+    --bs-btn-active-bg: var(--bib-verde-escuro);
+    --bs-btn-disabled-bg: var(--bib-verde);
+    --bs-btn-disabled-border-color: var(--bib-verde);
+}
+
+.btn-outline-primary {
+    --bs-btn-color: var(--bib-verde);
+    --bs-btn-border-color: var(--bib-verde);
+    --bs-btn-hover-bg: var(--bib-verde);
+    --bs-btn-hover-border-color: var(--bib-verde);
+    --bs-btn-active-bg: var(--bib-verde-escuro);
+}
+
+.nav-pills {
+    --bs-nav-pills-link-active-bg: var(--bib-verde);
+}
+
+    .nav-pills .nav-link {
+        color: var(--bib-verde);
+    }
+
+        .nav-pills .nav-link.active {
+            color: #fff;
+        }
+
+/* Foco visível (acessibilidade) */
+.btn:focus-visible, .form-control:focus, .form-select:focus, a:focus-visible {
+    outline: 3px solid var(--bib-dourado);
+    outline-offset: 2px;
+    box-shadow: none;
+}
+
+/* Cartões */
+.card {
+    border: 1px solid #e5dfd0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .05);
+}
+
+.card-header {
+    background-color: #fff;
+}
+
+.card-form {
+    border-top: 4px solid var(--bib-verde);
+}
+
+.table thead th {
+    font-weight: 600;
+    color: #5b6770;
+    font-size: .9rem;
+    border-bottom-width: 2px;
+}
+
+.stat-card {
+    border-left: 4px solid var(--bib-dourado);
+    transition: transform .15s;
+}
+
+    .stat-card:hover {
+        transform: translateY(-2px);
+    }
+
+.stat-label {
+    color: #5b6770;
+    font-size: .95rem;
+}
+
+.stat-valor {
+    font-family: "Lora", Georgia, serif;
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--bib-verde);
+}
+
+.hero {
+    padding: 3rem 1rem 2rem;
+}
+
+.hero-icone {
+    font-size: 4rem;
+    color: var(--bib-dourado);
+}
+
+.card-funcionalidade i {
+    color: var(--bib-verde);
+}
+
+.pagina-erro {
+    padding: 4rem 1rem;
+}
+
+.footer-biblioteca {
+    background-color: var(--bib-verde-escuro);
+    color: rgba(255, 255, 255, .75);
+    padding: 1rem 0;
+    font-size: .9rem;
 }
