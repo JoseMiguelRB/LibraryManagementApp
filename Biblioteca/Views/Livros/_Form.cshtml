@@ -1,0 +1,44 @@
+﻿@model Livro
+<div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+
+<div class="mb-3">
+    <label asp-for="Titulo" class="form-label"></label>
+    <input asp-for="Titulo" class="form-control" />
+    <span asp-validation-for="Titulo" class="text-danger small"></span>
+</div>
+
+<div class="row">
+    <div class="col-sm-6 mb-3">
+        <label asp-for="AutorId" class="form-label"></label>
+        <select asp-for="AutorId" asp-items="ViewBag.Autores" class="form-select">
+            <option value="">-- Selecione o autor --</option>
+        </select>
+        <span asp-validation-for="AutorId" class="text-danger small"></span>
+        <div class="form-text">Não encontra o autor? <a asp-controller="Autores" asp-action="Create">Criar autor</a></div>
+    </div>
+    <div class="col-sm-6 mb-3">
+        <label asp-for="CategoriaId" class="form-label"></label>
+        <select asp-for="CategoriaId" asp-items="ViewBag.Categorias" class="form-select">
+            <option value="">-- Selecione a categoria --</option>
+        </select>
+        <span asp-validation-for="CategoriaId" class="text-danger small"></span>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-5 mb-3">
+        <label asp-for="ISBN" class="form-label"></label>
+        <input asp-for="ISBN" class="form-control" inputmode="numeric" maxlength="13" />
+        <span asp-validation-for="ISBN" class="text-danger small"></span>
+    </div>
+    <div class="col-sm-4 mb-3">
+        <label asp-for="AnoPublicacao" class="form-label"></label>
+        <input asp-for="AnoPublicacao" class="form-control" />
+        <span asp-validation-for="AnoPublicacao" class="text-danger small"></span>
+    </div>
+    <div class="col-sm-3 mb-3">
+        <label asp-for="NumeroExemplares" class="form-label"></label>
+        <input asp-for="NumeroExemplares" class="form-control" min="1" />
+        <span asp-validation-for="NumeroExemplares" class="text-danger small"></span>
+    </div>
+</div>

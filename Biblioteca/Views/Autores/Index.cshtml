@@ -1,0 +1,58 @@
+﻿@model List<Autor>
+@{
+    ViewData["Title"] = "Autores";
+}
+<div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-2">
+    <h1 class="mb-0">Autores</h1>
+    <a asp-action="Create" class="btn btn-primary"><i class="bi bi-plus-lg"></i> Novo autor</a>
+</div>
+
+<form asp-action="Index" method="get" class="row g-2 mb-3" role="search">
+    <div class="col-sm-8 col-md-6">
+        <label for="pesquisa" class="visually-hidden">Pesquisar</label>
+        <input type="search" id="pesquisa" name="pesquisa" value="@ViewData["Pesquisa"]" class="form-control" placeholder="Pesquisar por nome ou nacionalidade" />
+    </div>
+    <div class="col-auto">
+        <button type="submit" class="btn btn-outline-primary"><i class="bi bi-search"></i> Pesquisar</button>
+        <a asp-action="Index" class="btn btn-link">Limpar</a>
+    </div>
+</form>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-light border">Não foram encontrados autores.</div>
+}
+else
+{
+    <div class="card">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Nacionalidade</th>
+                        <th>Data de nascimento</th>
+                        <th class="text-center">N.º de livros</th>
+                        <th class="text-end">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var autor in Model)
+                    {
+                        <tr>
+                            <td class="fw-semibold">@autor.Nome</td>
+                            <td>@(autor.Nacionalidade ?? "—")</td>
+                            <td>@(autor.DataNascimento?.ToString("dd/MM/yyyy") ?? "—")</td>
+                            <td class="text-center"><span class="badge text-bg-light border">@autor.Livros.Count</span></td>
+                            <td class="text-end text-nowrap">
+                                <a asp-action="Details" asp-route-id="@autor.Id" class="btn btn-sm btn-outline-secondary" title="Detalhes" aria-label="Detalhes de @autor.Nome"><i class="bi bi-eye"></i></a>
+                                <a asp-action="Edit" asp-route-id="@autor.Id" class="btn btn-sm btn-outline-primary" title="Editar" aria-label="Editar @autor.Nome"><i class="bi bi-pencil"></i></a>
+                                <a asp-action="Delete" asp-route-id="@autor.Id" class="btn btn-sm btn-outline-danger" title="Eliminar" aria-label="Eliminar @autor.Nome"><i class="bi bi-trash"></i></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}

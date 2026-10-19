@@ -1,0 +1,41 @@
+﻿@model Categoria
+@{
+    ViewData["Title"] = Model.Nome;
+}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a asp-action="Index">Categorias</a></li>
+        <li class="breadcrumb-item active" aria-current="page">@Model.Nome</li>
+    </ol>
+</nav>
+
+<div class="card mb-4">
+    <div class="card-body">
+        <div class="d-flex flex-wrap justify-content-between gap-2">
+            <h1 class="h2">@Model.Nome</h1>
+            <div>
+                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-primary"><i class="bi bi-pencil"></i> Editar</a>
+                <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-outline-danger"><i class="bi bi-trash"></i> Eliminar</a>
+            </div>
+        </div>
+        <p class="text-muted mb-0">@(Model.Descricao ?? "Sem descrição.")</p>
+    </div>
+</div>
+
+<h2 class="h4">Livros nesta categoria (@Model.Livros.Count)</h2>
+@if (!Model.Livros.Any())
+{
+    <p class="text-muted">Não existem livros nesta categoria.</p>
+}
+else
+{
+    <ul class="list-group">
+        @foreach (var livro in Model.Livros.OrderBy(l => l.Titulo))
+        {
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <a asp-controller="Livros" asp-action="Details" asp-route-id="@livro.Id">@livro.Titulo</a>
+                <span class="text-muted small">@livro.Autor?.Nome &middot; @livro.AnoPublicacao</span>
+            </li>
+        }
+    </ul>
+}

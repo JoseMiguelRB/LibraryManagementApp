@@ -1,0 +1,44 @@
+﻿@{
+    ViewData["Title"] = "Bem-vindo";
+}
+<section class="hero text-center">
+    <i class="bi bi-book-half hero-icone" aria-hidden="true"></i>
+    <h1 class="display-5">Gestão de Biblioteca</h1>
+    <p class="lead text-muted mx-auto" style="max-width: 640px">
+        Faça a gestão do acervo, dos autores, dos leitores e dos empréstimos da biblioteca num único lugar.
+    </p>
+    <div class="d-flex justify-content-center gap-2 mt-4">
+        <a asp-controller="Account" asp-action="Login" class="btn btn-primary btn-lg"><i class="bi bi-box-arrow-in-right"></i> Iniciar sessão</a>
+        <a asp-controller="Account" asp-action="Register" class="btn btn-outline-primary btn-lg">Criar conta</a>
+    </div>
+</section>
+
+<div class="row g-4 mt-2">
+    <div class="col-md-4">
+        <div class="card h-100 card-funcionalidade">
+            <div class="card-body">
+                <i class="bi bi-journal-bookmark fs-2"></i>
+                <h2 class="h5 mt-2">Acervo</h2>
+                <p class="text-muted mb-0">Livros organizados por autor e categoria, com controlo de exemplares disponíveis.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100 card-funcionalidade">
+            <div class="card-body">
+                <i class="bi bi-people fs-2"></i>
+                <h2 class="h5 mt-2">Leitores</h2>
+                <p class="text-muted mb-0">Registo dos leitores e consulta do histórico de empréstimos de cada um.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100 card-funcionalidade">
+            <div class="card-body">
+                <i class="bi bi-arrow-left-right fs-2"></i>
+                <h2 class="h5 mt-2">Empréstimos</h2>
+                <p class="text-muted mb-0">Empréstimos e devoluções, com alerta dos que estão em atraso.</p>
+            </div>
+        </div>
+    </div>
+</div>

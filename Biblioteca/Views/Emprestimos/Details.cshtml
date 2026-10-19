@@ -1,0 +1,50 @@
+﻿@model Emprestimo
+@{
+    ViewData["Title"] = "Detalhes do empréstimo";
+}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a asp-action="Index">Empréstimos</a></li>
+        <li class="breadcrumb-item active" aria-current="page">#@Model.Id</li>
+    </ol>
+</nav>
+
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-body p-4">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                    <h1 class="h3 mb-0">Empréstimo #@Model.Id</h1>
+                    <partial name="_EstadoEmprestimo" model="Model" />
+                </div>
+
+                <dl class="row">
+                    <dt class="col-sm-4">Livro</dt>
+                    <dd class="col-sm-8"><a asp-controller="Livros" asp-action="Details" asp-route-id="@Model.LivroId">@Model.Livro?.Titulo</a></dd>
+                    <dt class="col-sm-4">Autor</dt>
+                    <dd class="col-sm-8">@Model.Livro?.Autor?.Nome</dd>
+                    <dt class="col-sm-4">Leitor</dt>
+                    <dd class="col-sm-8"><a asp-controller="Leitores" asp-action="Details" asp-route-id="@Model.LeitorId">@Model.Leitor?.Nome</a> <span class="text-muted">(@Model.Leitor?.Email)</span></dd>
+                    <dt class="col-sm-4">Data do empréstimo</dt>
+                    <dd class="col-sm-8">@Model.DataEmprestimo.ToString("dd/MM/yyyy")</dd>
+                    <dt class="col-sm-4">Devolução prevista</dt>
+                    <dd class="col-sm-8">@Model.DataPrevistaDevolucao.ToString("dd/MM/yyyy")</dd>
+                    <dt class="col-sm-4">Data de devolução</dt>
+                    <dd class="col-sm-8">@(Model.DataDevolucao?.ToString("dd/MM/yyyy") ?? "—")</dd>
+                </dl>
+
+                <div class="d-flex flex-wrap gap-2">
+                    <a asp-action="Index" class="btn btn-outline-secondary"><i class="bi bi-arrow-left"></i> Voltar</a>
+                    @if (!Model.Devolvido)
+                    {
+                        <form asp-action="Devolver" asp-route-id="@Model.Id" method="post">
+                            <button type="submit" class="btn btn-success"><i class="bi bi-box-arrow-in-down"></i> Registar devolução</button>
+                        </form>
+                        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-primary"><i class="bi bi-pencil"></i> Editar</a>
+                    }
+                    <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-outline-danger"><i class="bi bi-trash"></i> Eliminar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

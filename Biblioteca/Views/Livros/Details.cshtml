@@ -1,0 +1,80 @@
+﻿@model Livro
+@{
+    ViewData["Title"] = Model.Titulo;
+}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a asp-action="Index">Livros</a></li>
+        <li class="breadcrumb-item active" aria-current="page">@Model.Titulo</li>
+    </ol>
+</nav>
+
+<div class="card mb-4">
+    <div class="card-body">
+        <div class="d-flex flex-wrap justify-content-between gap-2">
+            <div>
+                <h1 class="h2 mb-1">@Model.Titulo</h1>
+                <p class="text-muted">
+                    <a asp-controller="Autores" asp-action="Details" asp-route-id="@Model.AutorId">@Model.Autor?.Nome</a>
+                    &middot; @Model.AnoPublicacao
+                </p>
+            </div>
+            <div class="text-nowrap">
+                @if (Model.ExemplaresDisponiveis > 0)
+                {
+                    <a asp-controller="Emprestimos" asp-action="Create" asp-route-livroId="@Model.Id" class="btn btn-success"><i class="bi bi-box-arrow-up-right"></i> Emprestar</a>
+                }
+                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-primary"><i class="bi bi-pencil"></i> Editar</a>
+                <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-outline-danger"><i class="bi bi-trash"></i></a>
+            </div>
+        </div>
+
+        <dl class="row mb-0">
+            <dt class="col-sm-3">Categoria</dt>
+            <dd class="col-sm-9"><a asp-controller="Categorias" asp-action="Details" asp-route-id="@Model.CategoriaId">@Model.Categoria?.Nome</a></dd>
+            <dt class="col-sm-3">ISBN</dt>
+            <dd class="col-sm-9 font-monospace">@Model.ISBN</dd>
+            <dt class="col-sm-3">Exemplares</dt>
+            <dd class="col-sm-9">
+                @Model.NumeroExemplares no total &middot;
+                <span class="badge @(Model.ExemplaresDisponiveis > 0 ? "text-bg-success" : "text-bg-danger")">@Model.ExemplaresDisponiveis disponível(eis)</span>
+            </dd>
+        </dl>
+    </div>
+</div>
+
+<h2 class="h4">Histórico de empréstimos (@Model.Emprestimos.Count)</h2>
+@if (!Model.Emprestimos.Any())
+{
+    <p class="text-muted">Este livro ainda não foi emprestado.</p>
+}
+else
+{
+    <div class="card">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th>Leitor</th>
+                        <th>Empréstimo</th>
+                        <th>Devolução prevista</th>
+                        <th>Devolvido em</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var e in Model.Emprestimos.OrderByDescending(e => e.DataEmprestimo))
+                    {
+                        <tr>
+                            <td><a asp-controller="Leitores" asp-action="Details" asp-route-id="@e.LeitorId">@e.Leitor?.Nome</a></td>
+                            <td>@e.DataEmprestimo.ToString("dd/MM/yyyy")</td>
+                            <td>@e.DataPrevistaDevolucao.ToString("dd/MM/yyyy")</td>
+                            <td>@(e.DataDevolucao?.ToString("dd/MM/yyyy") ?? "—")</td>
+                            <td><partial name="_EstadoEmprestimo" model="e" /></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}

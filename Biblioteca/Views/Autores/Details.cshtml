@@ -1,0 +1,62 @@
+﻿@model Autor
+@{
+    ViewData["Title"] = Model.Nome;
+}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a asp-action="Index">Autores</a></li>
+        <li class="breadcrumb-item active" aria-current="page">@Model.Nome</li>
+    </ol>
+</nav>
+
+<div class="card mb-4">
+    <div class="card-body">
+        <div class="d-flex flex-wrap justify-content-between gap-2">
+            <h1 class="h2 mb-3">@Model.Nome</h1>
+            <div>
+                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-primary"><i class="bi bi-pencil"></i> Editar</a>
+                <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-outline-danger"><i class="bi bi-trash"></i> Eliminar</a>
+            </div>
+        </div>
+        <dl class="row mb-0">
+            <dt class="col-sm-3">Nacionalidade</dt>
+            <dd class="col-sm-9">@(Model.Nacionalidade ?? "—")</dd>
+            <dt class="col-sm-3">Data de nascimento</dt>
+            <dd class="col-sm-9">@(Model.DataNascimento?.ToString("dd/MM/yyyy") ?? "—")</dd>
+        </dl>
+    </div>
+</div>
+
+<h2 class="h4">Livros deste autor (@Model.Livros.Count)</h2>
+@if (!Model.Livros.Any())
+{
+    <p class="text-muted">Este autor ainda não tem livros registados.</p>
+}
+else
+{
+    <div class="card">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th>Título</th>
+                        <th>Categoria</th>
+                        <th>Ano</th>
+                        <th class="text-center">Disponíveis</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var livro in Model.Livros.OrderBy(l => l.Titulo))
+                    {
+                        <tr>
+                            <td><a asp-controller="Livros" asp-action="Details" asp-route-id="@livro.Id">@livro.Titulo</a></td>
+                            <td>@livro.Categoria?.Nome</td>
+                            <td>@livro.AnoPublicacao</td>
+                            <td class="text-center">@livro.ExemplaresDisponiveis / @livro.NumeroExemplares</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}

@@ -1,0 +1,39 @@
+﻿@model Leitor
+@{
+    ViewData["Title"] = "Eliminar leitor";
+    var temEmprestimos = Model.Emprestimos.Any();
+}
+<div class="row justify-content-center">
+    <div class="col-lg-7">
+        <div class="card border-danger">
+            <div class="card-body p-4">
+                <h1 class="h3 text-danger"><i class="bi bi-trash"></i> Eliminar leitor</h1>
+
+                @if (temEmprestimos)
+                {
+                    <div class="alert alert-warning">
+                        <i class="bi bi-exclamation-triangle"></i>
+                        Este leitor tem <strong>@Model.Emprestimos.Count empréstimo(s)</strong> registado(s) e não pode ser eliminado.
+                    </div>
+                }
+                else
+                {
+                    <p>Tem a certeza de que pretende eliminar este leitor?</p>
+                }
+
+                <dl class="row">
+                    <dt class="col-sm-4">Nome</dt>
+                    <dd class="col-sm-8">@Model.Nome</dd>
+                    <dt class="col-sm-4">Email</dt>
+                    <dd class="col-sm-8">@Model.Email</dd>
+                </dl>
+
+                <form asp-action="Delete" method="post" class="d-flex justify-content-between">
+                    <input type="hidden" asp-for="Id" />
+                    <a asp-action="Index" class="btn btn-outline-secondary">Cancelar</a>
+                    <button type="submit" class="btn btn-danger" disabled="@temEmprestimos">Eliminar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

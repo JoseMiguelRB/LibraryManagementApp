@@ -1,0 +1,76 @@
+﻿@model List<Emprestimo>
+@{
+    ViewData["Title"] = "Empréstimos";
+    var estado = ViewData["Estado"] as string;
+    var returnUrl = Context.Request.Path + Context.Request.QueryString;
+}
+<div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-2">
+    <h1 class="mb-0">Empréstimos</h1>
+    <a asp-action="Create" class="btn btn-primary"><i class="bi bi-plus-lg"></i> Novo empréstimo</a>
+</div>
+
+<ul class="nav nav-pills mb-3">
+    <li class="nav-item"><a class="nav-link @(string.IsNullOrEmpty(estado) ? "active" : "")" asp-action="Index">Todos</a></li>
+    <li class="nav-item"><a class="nav-link @(estado == "ativos" ? "active" : "")" asp-action="Index" asp-route-estado="ativos">Ativos</a></li>
+    <li class="nav-item"><a class="nav-link @(estado == "atraso" ? "active" : "")" asp-action="Index" asp-route-estado="atraso">Em atraso</a></li>
+    <li class="nav-item"><a class="nav-link @(estado == "devolvidos" ? "active" : "")" asp-action="Index" asp-route-estado="devolvidos">Devolvidos</a></li>
+</ul>
+
+<form asp-action="Index" method="get" class="row g-2 mb-3" role="search">
+    <input type="hidden" name="estado" value="@estado" />
+    <div class="col-sm-8 col-md-6">
+        <label for="pesquisa" class="visually-hidden">Pesquisar</label>
+        <input type="search" id="pesquisa" name="pesquisa" value="@ViewData["Pesquisa"]" class="form-control" placeholder="Pesquisar por livro ou leitor" />
+    </div>
+    <div class="col-auto">
+        <button type="submit" class="btn btn-outline-primary"><i class="bi bi-search"></i> Pesquisar</button>
+    </div>
+</form>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-light border">Não foram encontrados empréstimos.</div>
+}
+else
+{
+    <div class="card">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th>Livro</th>
+                        <th>Leitor</th>
+                        <th>Empréstimo</th>
+                        <th>Devolução prevista</th>
+                        <th>Estado</th>
+                        <th class="text-end">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var e in Model)
+                    {
+                        <tr class="@(e.EmAtraso ? "table-danger" : "")">
+                            <td><a asp-controller="Livros" asp-action="Details" asp-route-id="@e.LivroId">@e.Livro?.Titulo</a></td>
+                            <td><a asp-controller="Leitores" asp-action="Details" asp-route-id="@e.LeitorId">@e.Leitor?.Nome</a></td>
+                            <td>@e.DataEmprestimo.ToString("dd/MM/yyyy")</td>
+                            <td>@e.DataPrevistaDevolucao.ToString("dd/MM/yyyy")</td>
+                            <td><partial name="_EstadoEmprestimo" model="e" /></td>
+                            <td class="text-end text-nowrap">
+                                @if (!e.Devolvido)
+                                {
+                                    <form asp-action="Devolver" asp-route-id="@e.Id" method="post" class="d-inline">
+                                        <input type="hidden" name="returnUrl" value="@returnUrl" />
+                                        <button type="submit" class="btn btn-sm btn-success" title="Registar devolução" aria-label="Registar devolução de @e.Livro?.Titulo"><i class="bi bi-box-arrow-in-down"></i></button>
+                                    </form>
+                                    <a asp-action="Edit" asp-route-id="@e.Id" class="btn btn-sm btn-outline-primary" title="Editar" aria-label="Editar empréstimo"><i class="bi bi-pencil"></i></a>
+                                }
+                                <a asp-action="Details" asp-route-id="@e.Id" class="btn btn-sm btn-outline-secondary" title="Detalhes" aria-label="Detalhes do empréstimo"><i class="bi bi-eye"></i></a>
+                                <a asp-action="Delete" asp-route-id="@e.Id" class="btn btn-sm btn-outline-danger" title="Eliminar" aria-label="Eliminar empréstimo"><i class="bi bi-trash"></i></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}

@@ -1,0 +1,36 @@
+﻿@model Emprestimo
+@{
+    ViewData["Title"] = "Eliminar empréstimo";
+}
+<div class="row justify-content-center">
+    <div class="col-lg-7">
+        <div class="card border-danger">
+            <div class="card-body p-4">
+                <h1 class="h3 text-danger"><i class="bi bi-trash"></i> Eliminar empréstimo</h1>
+                <p>Tem a certeza de que pretende eliminar este empréstimo? Esta ação não pode ser desfeita.</p>
+
+                @if (!Model.Devolvido)
+                {
+                    <div class="alert alert-info small">Este empréstimo ainda está ativo. Ao eliminá-lo, o exemplar volta a ficar disponível.</div>
+                }
+
+                <dl class="row">
+                    <dt class="col-sm-4">Livro</dt>
+                    <dd class="col-sm-8">@Model.Livro?.Titulo</dd>
+                    <dt class="col-sm-4">Leitor</dt>
+                    <dd class="col-sm-8">@Model.Leitor?.Nome</dd>
+                    <dt class="col-sm-4">Data</dt>
+                    <dd class="col-sm-8">@Model.DataEmprestimo.ToString("dd/MM/yyyy")</dd>
+                    <dt class="col-sm-4">Estado</dt>
+                    <dd class="col-sm-8"><partial name="_EstadoEmprestimo" model="Model" /></dd>
+                </dl>
+
+                <form asp-action="Delete" method="post" class="d-flex justify-content-between">
+                    <input type="hidden" asp-for="Id" />
+                    <a asp-action="Index" class="btn btn-outline-secondary">Cancelar</a>
+                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

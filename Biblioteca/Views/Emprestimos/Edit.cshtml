@@ -1,0 +1,49 @@
+﻿@model Emprestimo
+@{
+    ViewData["Title"] = "Editar empréstimo";
+}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card card-form">
+            <div class="card-body p-4">
+                <h1 class="h3 mb-4">Editar empréstimo</h1>
+
+                <dl class="row">
+                    <dt class="col-sm-3">Livro</dt>
+                    <dd class="col-sm-9">@Model.Livro?.Titulo</dd>
+                    <dt class="col-sm-3">Leitor</dt>
+                    <dd class="col-sm-9">@Model.Leitor?.Nome</dd>
+                </dl>
+
+                <form asp-action="Edit" method="post" novalidate>
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+                    <input type="hidden" asp-for="Id" />
+                    <input type="hidden" asp-for="LivroId" />
+                    <input type="hidden" asp-for="LeitorId" />
+
+                    <div class="row">
+                        <div class="col-sm-6 mb-3">
+                            <label asp-for="DataEmprestimo" class="form-label"></label>
+                            <input asp-for="DataEmprestimo" class="form-control" />
+                            <span asp-validation-for="DataEmprestimo" class="text-danger small"></span>
+                        </div>
+                        <div class="col-sm-6 mb-3">
+                            <label asp-for="DataPrevistaDevolucao" class="form-label"></label>
+                            <input asp-for="DataPrevistaDevolucao" class="form-control" />
+                            <span asp-validation-for="DataPrevistaDevolucao" class="text-danger small"></span>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        <a asp-action="Index" class="btn btn-outline-secondary">Cancelar</a>
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

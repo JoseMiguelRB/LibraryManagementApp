@@ -1,8 +1,87 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model DashboardViewModel
+@{
+    ViewData["Title"] = "Painel";
 }
+<div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-2">
+    <h1 class="mb-0">Painel</h1>
+    <a asp-controller="Emprestimos" asp-action="Create" class="btn btn-primary"><i class="bi bi-plus-lg"></i> Novo empréstimo</a>
+</div>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="row g-3 mb-4">
+    <div class="col-6 col-lg-3">
+        <a asp-controller="Livros" asp-action="Index" class="card stat-card text-decoration-none">
+            <div class="card-body">
+                <div class="stat-label"><i class="bi bi-journal-bookmark"></i> Livros</div>
+                <div class="stat-valor">@Model.TotalLivros</div>
+            </div>
+        </a>
+    </div>
+    <div class="col-6 col-lg-3">
+        <a asp-controller="Autores" asp-action="Index" class="card stat-card text-decoration-none">
+            <div class="card-body">
+                <div class="stat-label"><i class="bi bi-person-lines-fill"></i> Autores</div>
+                <div class="stat-valor">@Model.TotalAutores</div>
+            </div>
+        </a>
+    </div>
+    <div class="col-6 col-lg-3">
+        <a asp-controller="Leitores" asp-action="Index" class="card stat-card text-decoration-none">
+            <div class="card-body">
+                <div class="stat-label"><i class="bi bi-people"></i> Leitores</div>
+                <div class="stat-valor">@Model.TotalLeitores</div>
+            </div>
+        </a>
+    </div>
+    <div class="col-6 col-lg-3">
+        <a asp-controller="Emprestimos" asp-action="Index" asp-route-estado="ativos" class="card stat-card text-decoration-none">
+            <div class="card-body">
+                <div class="stat-label"><i class="bi bi-arrow-left-right"></i> Empréstimos ativos</div>
+                <div class="stat-valor">@Model.EmprestimosAtivos</div>
+            </div>
+        </a>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h2 class="h5 mb-0"><i class="bi bi-exclamation-triangle text-danger"></i> Empréstimos em atraso</h2>
+        <span class="badge text-bg-danger">@Model.EmprestimosEmAtraso.Count</span>
+    </div>
+    @if (!Model.EmprestimosEmAtraso.Any())
+    {
+        <div class="card-body text-muted">Não existem empréstimos em atraso. 👍</div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th>Livro</th>
+                        <th>Leitor</th>
+                        <th>Devolução prevista</th>
+                        <th>Dias de atraso</th>
+                        <th class="text-end">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var e in Model.EmprestimosEmAtraso)
+                    {
+                        <tr>
+                            <td><a asp-controller="Livros" asp-action="Details" asp-route-id="@e.LivroId">@e.Livro?.Titulo</a></td>
+                            <td><a asp-controller="Leitores" asp-action="Details" asp-route-id="@e.LeitorId">@e.Leitor?.Nome</a></td>
+                            <td>@e.DataPrevistaDevolucao.ToString("dd/MM/yyyy")</td>
+                            <td><span class="text-danger fw-semibold">@((DateTime.Today - e.DataPrevistaDevolucao.Date).Days)</span></td>
+                            <td class="text-end">
+                                <form asp-controller="Emprestimos" asp-action="Devolver" asp-route-id="@e.Id" method="post" class="d-inline">
+                                    <input type="hidden" name="returnUrl" value="/" />
+                                    <button type="submit" class="btn btn-sm btn-success"><i class="bi bi-box-arrow-in-down"></i> Devolver</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
 </div>

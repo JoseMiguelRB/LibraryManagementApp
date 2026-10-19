@@ -1,0 +1,25 @@
+﻿@model Leitor
+@{
+    ViewData["Title"] = "Editar leitor";
+}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card card-form">
+            <div class="card-body p-4">
+                <h1 class="h3 mb-4">Editar leitor</h1>
+                <form asp-action="Edit" method="post" novalidate>
+                    <input type="hidden" asp-for="Id" />
+                    <partial name="_Form" model="Model" />
+                    <div class="d-flex justify-content-between">
+                        <a asp-action="Index" class="btn btn-outline-secondary">Cancelar</a>
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,45 @@
+﻿@model List<Categoria>
+@{
+    ViewData["Title"] = "Categorias";
+}
+<div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-2">
+    <h1 class="mb-0">Categorias</h1>
+    <a asp-action="Create" class="btn btn-primary"><i class="bi bi-plus-lg"></i> Nova categoria</a>
+</div>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-light border">Ainda não existem categorias.</div>
+}
+else
+{
+    <div class="card">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Descrição</th>
+                        <th class="text-center">N.º de livros</th>
+                        <th class="text-end">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var categoria in Model)
+                    {
+                        <tr>
+                            <td class="fw-semibold">@categoria.Nome</td>
+                            <td class="text-muted">@(categoria.Descricao ?? "—")</td>
+                            <td class="text-center"><span class="badge text-bg-light border">@categoria.Livros.Count</span></td>
+                            <td class="text-end text-nowrap">
+                                <a asp-action="Details" asp-route-id="@categoria.Id" class="btn btn-sm btn-outline-secondary" title="Detalhes" aria-label="Detalhes de @categoria.Nome"><i class="bi bi-eye"></i></a>
+                                <a asp-action="Edit" asp-route-id="@categoria.Id" class="btn btn-sm btn-outline-primary" title="Editar" aria-label="Editar @categoria.Nome"><i class="bi bi-pencil"></i></a>
+                                <a asp-action="Delete" asp-route-id="@categoria.Id" class="btn btn-sm btn-outline-danger" title="Eliminar" aria-label="Eliminar @categoria.Nome"><i class="bi bi-trash"></i></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}

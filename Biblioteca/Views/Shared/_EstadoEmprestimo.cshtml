@@ -1,0 +1,13 @@
+﻿@model Emprestimo
+@if (Model.Devolvido)
+{
+    <span class="badge text-bg-secondary">Devolvido</span>
+}
+else if (Model.EmAtraso)
+{
+    <span class="badge text-bg-danger">Em atraso</span>
+}
+else
+{
+    <span class="badge text-bg-success">Ativo</span>
+}
